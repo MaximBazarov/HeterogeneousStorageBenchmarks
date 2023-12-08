@@ -19,6 +19,23 @@ final class StorageSafeCasting: Storage {
     }
 }
 
+final class StorageSafeOptionalCasting: Storage {
+    typealias Key = ObjectIdentifier
+
+    private var _storage: [Key: Any] = [:]
+
+    public func get<T: Container>(_ type: T.Type) -> T {
+        let key = Key(type)
+        if let value = _storage[key] as? T {
+            return value
+        }
+
+        let value = type.init()
+        _storage[key] = value
+        return value
+    }
+}
+
 final class StorageUnsafeCasting: Storage {
     typealias Key = ObjectIdentifier
 
@@ -27,7 +44,6 @@ final class StorageUnsafeCasting: Storage {
     func get<T: Container>(_ type: T.Type) -> T {
         let key = Key(type)
         if let value = _storage[key] {
-//            return value as! T
             return unsafeDowncast(value, to: T.self)
         }
 

@@ -3,6 +3,7 @@ import CollectionsBenchmark
 // Create a new benchmark instance.
 var benchmark = Benchmark(title: "Storage")
 let safeStorage = StorageSafeCasting()
+let safeOptionalStorage = StorageSafeOptionalCasting()
 let unsafeStorage = StorageUnsafeCasting()
 
 
@@ -18,7 +19,18 @@ benchmark.addSimple(
 }
 
 benchmark.addSimple(
-    title: "unsafeBitCast(value, to: T.self)",
+    title: "value as? T",
+    input: [Int].self
+) { input in
+    blackHole(input.forEach({ index in
+        guard index < benchmarks.count else { return }
+        let work = benchmarks[index]
+        work(safeOptionalStorage)
+    }))
+}
+
+benchmark.addSimple(
+    title: "unsafeDowncast(value, to: T.self)",
     input: [Int].self
 ) { input in
     blackHole(input.forEach({ index in
