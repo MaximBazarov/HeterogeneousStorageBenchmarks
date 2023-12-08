@@ -22,12 +22,13 @@ final class StorageSafeCasting: Storage {
 final class StorageUnsafeCasting: Storage {
     typealias Key = ObjectIdentifier
 
-    private var _storage: [Key: Any] = [:]
+    private var _storage: [Key: AnyObject] = [:]
 
     func get<T: Container>(_ type: T.Type) -> T {
         let key = Key(type)
         if let value = _storage[key] {
-            return unsafeBitCast(value, to: T.self)
+//            return value as! T
+            return unsafeDowncast(value, to: T.self)
         }
 
         let value = type.init()
@@ -36,6 +37,6 @@ final class StorageUnsafeCasting: Storage {
     }
 }
 
-public protocol Container {
+public protocol Container: AnyObject {
     init()
 }

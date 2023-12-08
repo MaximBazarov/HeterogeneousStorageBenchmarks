@@ -27,7 +27,13 @@ for classIndex in 1...amount {
 
         """
 
-    listContent.append("    { blackHole($0.get(ContainerClass_\(classIndex).self)) }, \n")
+    listContent.append("""
+    {
+        let c = $0.get(ContainerClass_\(classIndex).self)
+        c.name = "benchmarked"
+    },
+    
+    """)
 }
 
 try! content.write(

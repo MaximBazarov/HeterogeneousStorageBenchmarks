@@ -1,1 +1,1 @@
-{"tasks":[],"version":1}
+{"version":1,"tasks":[{"results":{"5000":[0.0003200297142857143],"1000":[4.557083e-05]},"title":"value as! T"},{"title":"unsafeBitCast(value, to: T.self)","results":{"1000":[3.0502800000000002e-05],"5000":[0.00024015266666666666]}}]}
